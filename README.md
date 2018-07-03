@@ -21,7 +21,7 @@ This display will emulate the inexpensive I2C LCD displays
 available on eBay and Amazon, that have the I2C to parallel backpack
 mounted on them.
 
-In addition, the Smart Display Backpack can expand you analog and digital
+In addition, the Smart Display Backpack can expand your analog and digital
 I/O ports. The included library allows reading and writing to the 
 digital and analog I/O pins on the Smart Backpack from another Arduino 
 over the I2C bus.
@@ -75,7 +75,7 @@ the mounting and wiring of the Smart Backpack to the LCD display
 
 */
 
-// I2C clock and data pins are of both Arduino's
+// I2C clock and data pins of both Arduino's
 // are connected together as a bus.
 // The I2C bus clock and data pins need to
 // have pull-up resistors. 10K ohms to either
@@ -129,7 +129,7 @@ the mounting and wiring of the Smart Backpack to the LCD display
 // Note: cID can be ignored in
 // simple straight line code projects.
 //
-// This the included interface library provides
+// The included interface library provides
 // error status check functions.
 // If in simple projects you choose to ignore errors,
 // then the the library will behave in a pseudo "wires
