@@ -926,7 +926,7 @@ void calculatedValue(String cID, String iPin, String sCmd, String vData) {
     float vf = _analogValueMax[6];
     float vr = _analogValueMax[7];
     float vd = (vf - vr);
-    vd = min(vd, 0.002);  // Limit max SWR reading before divide by zero
+    vd = max(vd, 0.002);  // Limit max SWR reading before divide by zero
     // Calculate SWR from directional coupler voltages.
     result = String((vf + vr) / vd);
 
