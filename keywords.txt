@@ -1,0 +1,48 @@
+# Datatypes (KEYWORD1)
+# Methods and Functions (KEYWORD2)
+# Constants (LITERAL1)
+
+SmartLCDandIOexpander_I2 KEYWORD1
+SmartLcdIO KEYWORD1
+
+E_ERRORS     KEYWORD1
+E_OK         LITERAL1
+E_ERROR      LITERAL1
+E_NORDATA    LITERAL1
+E_NOSDATA    LITERAL1
+E_CIDERROR   LITERAL1
+E_RBOVERFLOW LITERAL1
+E_RTYPE      LITERAL1
+E_COMFAIL    LITERAL1
+E_DERRER     LITERAL1
+
+eError	       KEYWORD2
+eDisplayError  KEYWORD2
+eDigitalWrite  KEYWORD2
+eDigitalRead   KEYWORD2
+eAnalogWrite   KEYWORD2
+eAnalogRead    KEYWORD2
+eAnaloglStart  KEYWORD2
+ePinMode       KEYWORD2
+eCustomCommand KEYWORD2
+eDebugMessage  KEYWORD2
+eDisplayBrightness KEYWORD2
+eDisplayLedOnOff   KEYWORD2
+
+ePrint	KEYWORD2
+eClear	KEYWORD2
+eHome	KEYWORD2
+eSetCursor KEYWORD2
+eCursor	   KEYWORD2
+eNoCursor  KEYWORD2
+eBlink     KEYWORD2
+eNoBlink   KEYWORD2
+eDisplay   KEYWORD2
+eNoDisplay KEYWORD2
+eScrollDisplayLeft KEYWORD2
+eScrollDisplayRight KEYWORD2
+eAutoscroll   KEYWORD2
+eNoAutoscroll KEYWORD2
+eLeftToRight  KEYWORD2
+eRightToLeft  KEYWORD2
+
