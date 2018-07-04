@@ -1,6 +1,14 @@
 # SmartLCDandIOexpander_I2C
 An Arduino Smart I2C LCD Display backpack adapter and I/O expander
 
+__This package lets you add a display and expand the analog/digital I/O of 
+your project with just one I2C device.__
+
+It allows custom calculations to be done on the adapter. 
+It adds digital filtering to the analog readings to improve accuracy.
+
+![Smart LCD Display Prototype](https://raw.githubusercontent.com/mountaintom/SmartLCDandIOexpander_I2C/master/extras/SmartLCDandIOexpander_I2C_01.jpg)
+
 ### To use this library:
 
 Download the repository and unpack it into 
@@ -34,6 +42,29 @@ Arduino will demonstrate the operation of the Smart Display Backpack.
 Photos are in the "extras" directory that you should be able to determine 
 the mounting and wiring of the Smart Backpack to the LCD display
 
+The example files require the following libraries:
+The code uses the following libraries:
+
+SoftTimer.h   --  *https://github.com/prampec/arduino-softtimer*
+
+Also requires: -- *https://github.com/prampec/arduino-pcimanager*
+
+LiquidCrystal_PCF8574.h -- *https://github.com/mathertel/LiquidCrystal_PCF8574*
+
+The above are all installable from the Arduino library manager, 
+the GitHub URLs are just for reference.
+
+
+The following should be included by default in the Arduino development system.
+
+Wire 
+
+LiquidCrystal
+
+This readme and code is hosted at: 
+*https://github.com/mountaintom/SmartLCDandIOexpander_I2C*
+
+
 ```
 // This is a Smart I2C LCD Display backpack adapter and I/O expander.
 //
@@ -43,7 +74,7 @@ the mounting and wiring of the Smart Backpack to the LCD display
 // to the back of the LCD display.
 // This adapter has extended commands that allow the adapter to
 // read and write I/O pins on the Nano, in addition to the
-// adapt or functioning as a generic I2C LCD display adapter.
+// functioning as a generic I2C LCD display adapter.
 //
 // This I2C Display adapter code should handle IC2 LCD display data
 // (from a normal IC2 LCD display library) and Extended I/O commands without
@@ -72,7 +103,6 @@ the mounting and wiring of the Smart Backpack to the LCD display
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 */
 
 // I2C clock and data pins of both Arduino's

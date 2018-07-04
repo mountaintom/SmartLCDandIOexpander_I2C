@@ -6,7 +6,7 @@
 // to the back of the LCD display.
 // This adapter has extended commands that allow the adapter to
 // read and write I/O pins on the Nano, in addition to the
-// adapt or functioning as a generic I2C LCD display adapter.
+// functioning as a generic I2C LCD display adapter.
 //
 // This I2C Display adapter code should handle IC2 LCD display data
 // (from a normal IC2 LCD display library) and Extended I/O commands without
@@ -373,6 +373,8 @@ void printDebugInfo() {
   Serial.println(_extendedCommandNotReadCnt);
   Serial.print(F("No Send Data Count: "));
   Serial.println(_extendedCommandNoSendDataCnt);
+  Serial.print(F("Free Memory: "));
+  Serial.println(freeMemory());
   Serial.print(F("Current Command Buffer: "));
   Serial.println(_extendedCommand);
   Serial.print(F("Current Send Buffer: "));
@@ -388,8 +390,6 @@ void printDebugInfo() {
   Serial.println(_analogMicros);
   Serial.print(F("Internal chip temperature: "));
   Serial.println(_chipTemp, 4);
-  Serial.print(F("Alt Internal chip temperature: "));
-  Serial.println(GetTemp(), 4);
   Serial.print(F("Digital Pin D12 level: "));
   Serial.println(digitalRead(12));
   Serial.print(F("Digital Pin D13 level: "));
@@ -398,9 +398,11 @@ void printDebugInfo() {
   Serial.println(random());
 }
 
+//
+// This code is from:
+// https://playground.arduino.cc/Main/InternalTemperatureSensor
+//
 double GetTemp(void) {
-  // This routine is from:
-https:  // playground.arduino.cc/Main/InternalTemperatureSensor
 
   unsigned int wADC;
   double t;
@@ -432,6 +434,28 @@ https:  // playground.arduino.cc/Main/InternalTemperatureSensor
 
   // The returned temperature is in degrees Celsius.
   return (t);
+}
+
+//
+// This code is from:
+// https://learn.adafruit.com/memories-of-an-arduino/measuring-free-memory
+//
+#ifdef __arm__
+// should use uinstd.h to define sbrk but Due causes a conflict
+extern "C" char* sbrk(int incr);
+#else  // __ARM__
+extern char *__brkval;
+#endif  // __arm__
+
+int freeMemory() {
+  char top;
+#ifdef __arm__
+  return &top - reinterpret_cast<char*>(sbrk(0));
+#elif defined(CORE_TEENSY) || (ARDUINO > 103 && ARDUINO != 151)
+  return &top - __brkval;
+#else  // __arm__
+  return __brkval ? &top - __brkval : &top - __malloc_heap_start;
+#endif  // __arm__
 }
 
 void gatherExtendedIoCommands(byte iData) {

@@ -124,7 +124,7 @@ void loop() {
   delay(1000);
 
   eLcd.eClear();
-  eLcd.ePrint("LCD Extendrd mode");
+  eLcd.ePrint("LCD Extended mode");
   delay(1000);
   eLcd.eClear();
   eLcd.ePrint("Print using");
