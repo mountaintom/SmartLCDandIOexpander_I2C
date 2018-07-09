@@ -142,13 +142,17 @@ class SmartLcdIO {
 
   // Send a debug message over the display's serial port.
   void eDebugMessage(char* pin, bool on, float floatValue);
+ 
+  // Automatic serial debug messages 
+  void eDisplaySerialDebugEnable(bool); //Display debug mode
+  void eSerialDebugEnable(bool); //Library debug mode
 
   // LCD Display methods.
   // Except as noted, these function the
   // same as the LiquidCrystal library.
   void eDisplayBrightness(float brightness);  // Custom
   void eDisplayLedOnOff(bool level);          // Custom
-
+  
   void ePrint(char* printData);
   void eClear(void);
   void eHome(void);

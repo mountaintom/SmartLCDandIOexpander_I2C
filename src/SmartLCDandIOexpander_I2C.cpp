@@ -30,6 +30,9 @@ const int vData_Size = VDATA_SIZE + 3;
 
 byte _i2cAddr;
 
+// Set this to true if you want to enable debug messages by default
+bool _eSerialDebugMessages = false;
+
 // If these numbers are incrementing you may wish to explore why.
 long _eReturnDataOverflowCnt = 0;  // Debug/Monitoring
 long _eReturnDataNoDataCnt = 0;    // Debug/Monitoring
@@ -150,6 +153,14 @@ void SmartLcdIO::eDisplayLedOnOff(bool level) {
   eCommandSend("xxx", "LO", (level) ? "01" : "00", "\0");
 }
 
+void SmartLcdIO::eDisplaySerialDebugEnable(bool level) {
+  eCommandSend("xxx", "SD", (level) ? "01" : "00", "\0");
+}
+
+void SmartLcdIO::eSerialDebugEnable(bool level) {
+  _eSerialDebugMessages = level;
+}
+
 char* SmartLcdIO::eCustomCommand(char* pin, char* customCommand, char* vData) {
   // Send command to custom commands.
   // Custom commands generally calculate something and
@@ -203,8 +214,10 @@ char* SmartLcdIO::eCommandSend(char* pin, char* pCmd, char* sCmd, char* vData) {
   // Tack the "\n" terminator on end of command.
   strncat(eCBuf_as_char_p, "\n", sizeof(*eCBuf_p) - 1);
 
-  Serial.print("Command Buffer: ");
-  Serial.println(eCBuf_as_char_p);
+  if(_eSerialDebugMessages){
+    Serial.print(" --> Command Buffer: ");
+    Serial.print(eCBuf_as_char_p);
+  }
 
   // Rotate, in place, the bytes of the command string.
   char* p = eCBuf_as_char_p;
@@ -344,14 +357,16 @@ int SmartLcdIO::eReceiveData() {
     // No data was ready for request.
     eReturnDataError = E_NORDATA;
   }
-
-  // Serial.println("*** Receive Buffer ***");
-  // Serial.println((char *) eRBuf_p);
+  
+  if(_eSerialDebugMessages){
+    Serial.print(" <-- Receive Buffer: ");
+    Serial.println((char *) eRBuf_p);
+  }
 
   return (eReturnDataError);
 }
 
-// The following ate LCD display commands
+// The following are the LCD display commands
 void SmartLcdIO::ePrint(char* printData) {
   eCommandSend("xxx", "LP", "xx", printData);
 }

@@ -40,7 +40,14 @@ void setup() {
   lcd.print("Smart LCD Test");
   lcd.setCursor(0, 1);
   lcd.print("V 0.1.1");
+  
+  // Send debug messages to serial console
+  eLcd.eSerialDebugEnable(true);
+  
+  eLcd.ePinMode("D11", "OT");
+  eLcd.ePinMode("D12", "IP");
 
+  eLcd.eAnaloglStart("A03", "01", 0);
 }
 
 void loop() {
@@ -51,11 +58,6 @@ void loop() {
   lcd.setBacklight(255);
   lcd.home();
   lcd.clear();
-
-  eLcd.ePinMode("D11", "OT");
-  eLcd.ePinMode("D12", "IP");
-
-  eLcd.eAnaloglStart("A03", "01", 0);
 
   lcd.print("* LCD PCF8574 mode");
   delay(1000);
@@ -87,7 +89,7 @@ void loop() {
   delay(1000);
 
   char* TF = eLcd.eCustomCommand("xxx", "TF", "");
-  Serial.print("Reading XC TF: ");
+  Serial.print("Reading extended command: TF: ");
   Serial.println(TF);
   Serial.println("------");
 
@@ -102,20 +104,22 @@ void loop() {
   lcd.print(" Volts");
   delay(1000);
 
-  Serial.print("Write/Read pin D11 and D13: ");
+  Serial.println("Write pin D11 and D13: ");
   eLcd.eDigitalWrite("D13", 1);
   eLcd.eDigitalWrite("D11", 0);
   bool level = eLcd.eDigitalRead("D13");
+  Serial.print("Read pin D13: ");
   Serial.println(level);
   delay(500);
 
   eLcd.eDigitalWrite("D13", 0);
   eLcd.eDigitalWrite("D11", 1);
   level = eLcd.eDigitalRead("D13");
+  Serial.print("Read pin D13: ");
   Serial.println(level);
 
-  Serial.print("Read pin D12: ");
   level = eLcd.eDigitalRead("D12");
+  Serial.print("Read pin D12: ");
   Serial.println(level);
   lcd.clear();
   lcd.print("Digital Pin D12");

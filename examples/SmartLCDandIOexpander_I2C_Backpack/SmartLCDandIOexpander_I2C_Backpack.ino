@@ -151,6 +151,11 @@ bool _extendedCommandsOnly = false;
 String _extendedCommand;
 bool _extendedCommandReady = false;
 
+// Set this to true if you want to enable debug messages by default
+// Only for debug, as the serial messages can occasionally
+// interfere with timing of the LCD PCF8574 compatibility mode.
+bool _serialDebugMessages = false;
+
 // If these numbers are incrementing you may wish to explore why.
 long _extendedCommandInvalidCnt = 0;     // Debug counter
 long _extendedCommandOverflowCnt = 0;    // Debug counter
@@ -184,7 +189,7 @@ void serialDebugMessage(Task* me);
 
 Task taskScanAnalog(3, scanAnalog);
 Task taskScanAnalogMax(5, scanAnalogMax);
-Task taskSerialDebugMessage(10000, serialDebugMessage);
+Task taskSerialDebugMessage(15000, serialDebugMessage);
 
 void setup() {
   pinMode(3, INPUT_PULLUP);
@@ -360,8 +365,10 @@ void scanAnalogMax(Task* me) {
 }
 
 void serialDebugMessage(Task* me) {
-  Serial.println(F(" == Periodic Debug Message =="));
-  printDebugInfo();
+  if(_serialDebugMessages){
+    Serial.println(F(" == Periodic Debug Message =="));
+    printDebugInfo();
+  }
 }
 
 void printDebugInfo() {
@@ -494,8 +501,12 @@ void gatherExtendedIoCommands(byte iData) {
   if (_extendedCommand.length() <= EXTENDED_COMMAND_MAX_LENGTH) {
     if (rData == '\n') {
       _extendedCommandReady = true;
-      Serial.print(" +++ Cmd +++ ");
-      Serial.println(_extendedCommand);
+      
+      if(_serialDebugMessages){
+        Serial.print(" --> Cmd - ");
+        Serial.println(_extendedCommand);
+      }
+ 
     } else {
       _extendedCommand.concat((char)rData);
     }
@@ -592,7 +603,8 @@ void processCommand(String eCommand) {
     {String("LO"), displayLedOnOff},
     {String("EO"), extendedCommandsOnly},
     {String("XC"), calculatedValue},
-    {String("DB"), printSerialDebugMessage}
+    {String("DB"), printSerialDebugMessage},
+    {String("SD"), serialDebugMessages}
   };
 
   cmdFound = false;
@@ -631,8 +643,11 @@ void receiveEvent(int howMany) {
 
 void requestEvent() {
   if (_sendDataReady && (_sendData.length() >= 4)) {
-    // Serial.print("Send Data: "); // Debug
-    // Serial.println(_sendData); // Debug
+	  
+    if(_serialDebugMessages){
+      Serial.print(" <-- Ret - "); // Debug
+      Serial.println(_sendData); // Debug
+    }
 
     if (_sendData.length() >= EXTENDED_COMMAND_MAX_LENGTH - 1) {
       _extendedCommandNoSendDataCnt++;
@@ -1010,6 +1025,13 @@ void extendedCommandsOnly(String cID, String iPin, String sCmd, String vData) {
     _extendedCommandsOnly = true;
   } else {
     _extendedCommandsOnly = false;
+  }
+}
+void serialDebugMessages(String cID, String iPin, String sCmd, String vData) {
+  if (sCmd.toInt() == 1) {
+    _serialDebugMessages = true;
+  } else {
+    _serialDebugMessages = false;
   }
 }
 
