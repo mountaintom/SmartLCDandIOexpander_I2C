@@ -91,7 +91,6 @@ void loop() {
   char* TF = eLcd.eCustomCommand("xxx", "TF", "");
   Serial.print("Reading extended command: TF: ");
   Serial.println(TF);
-  Serial.println("------");
 
   float av = eLcd.eAnalogRead("A03");
   Serial.print("Read Analog: ");
@@ -175,4 +174,5 @@ void loop() {
     delay(10);
   }
   delay(1000);
+  eLcd.eLibDebugMessage();
 }

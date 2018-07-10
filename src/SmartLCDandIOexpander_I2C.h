@@ -141,7 +141,9 @@ class SmartLcdIO {
   char* eCustomCommand(char* pin, char* customCommand, char* vData);
 
   // Send a debug message over the display's serial port.
-  void eDebugMessage(char* pin, bool on, float floatValue);
+  void eDisplayDebugMessage(void);
+  // Send a debug message over this client's serial port
+  void eLibDebugMessage(void);
  
   // Automatic serial debug messages 
   void eDisplaySerialDebugEnable(bool); //Display debug mode

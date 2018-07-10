@@ -177,13 +177,32 @@ char* SmartLcdIO::eCustomCommand(char* pin, char* customCommand, char* vData) {
   return (rData);
 }
 
-void SmartLcdIO::eDebugMessage(char* pin, bool on, float floatValue) {
+void SmartLcdIO::eDisplayDebugMessage(void) {
   // Send a debug message back over the display's serial port.
-  char sBuf[8] = {0};
+  eCommandSend("xxx", "DB", "xx", "\0");
+}
 
-  dtostrf(floatValue, 6, 5, sBuf);
-
-  eCommandSend(pin, "DB", (on) ? "01" : "00", sBuf);
+void SmartLcdIO::eLibDebugMessage(void) {
+  // Send a library debug message back over the client serial port.
+  // Using short abbreviations to save space.
+  Serial.println(F("DB="));
+  Serial.print(F("D"));
+  Serial.println(_eSerialDebugMessages);
+  Serial.print(F("O"));
+  Serial.println(_eReturnDataOverflowCnt);
+  Serial.print(F("N"));
+  Serial.println(_eReturnDataNoDataCnt);
+  Serial.print(F("I"));
+  Serial.println(_badCIDCnt);
+  Serial.print(F("i"));
+  Serial.println(_lastCID);
+  Serial.print(F("E"));
+  Serial.println(_lastError);
+  Serial.print(F("e"));
+  Serial.println(_lastDisplayError);
+  Serial.print(F("R"));
+  Serial.println((char *) eRBuf_p);
+  Serial.println(F("="));
 }
 
 char* SmartLcdIO::eCommandSend(char* pin, char* pCmd, char* sCmd, char* vData) {
@@ -215,7 +234,7 @@ char* SmartLcdIO::eCommandSend(char* pin, char* pCmd, char* sCmd, char* vData) {
   strncat(eCBuf_as_char_p, "\n", sizeof(*eCBuf_p) - 1);
 
   if(_eSerialDebugMessages){
-    Serial.print(" --> Command Buffer: ");
+    Serial.print("->cB:");
     Serial.print(eCBuf_as_char_p);
   }
 
@@ -359,7 +378,7 @@ int SmartLcdIO::eReceiveData() {
   }
   
   if(_eSerialDebugMessages){
-    Serial.print(" <-- Receive Buffer: ");
+    Serial.print("<-rB:");
     Serial.println((char *) eRBuf_p);
   }
 
