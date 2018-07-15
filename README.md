@@ -9,6 +9,8 @@ It adds digital filtering to the analog readings to improve accuracy.
 
 ![Smart LCD Display Prototype](https://raw.githubusercontent.com/mountaintom/SmartLCDandIOexpander_I2C/master/extras/SmartLCDandIOexpander_I2C_01.jpg)
 
+![Smart LCD Display Prototype](https://raw.githubusercontent.com/mountaintom/SmartLCDandIOexpander_I2C/master/extras/SmartLCDandIOexpander_I2c_wiring_bb.png)
+
 ### To use this library:
 
 Download the repository and unpack it into 
